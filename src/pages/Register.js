@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import httpService from "../utils/http.js";
 import { endpoints } from "../utils/http.js";
+import { useNavigate } from "react-router-dom";
 import {
   NotificationManager,
   NotificationContainer,
@@ -8,6 +9,8 @@ import {
 import "react-notifications/lib/notifications.css"; // Import notification styles
 
 const Register = () => {
+
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     cnic: "",
     name: "",
@@ -38,13 +41,13 @@ const Register = () => {
         reqBody: formData,
         successNotif: true,
       });
-      console.log(response)
-         if (response) {
-           NotificationManager.success(
-             "User registered successfully",
-             "Success"
-           );
-         }
+      console.log(response);
+      console.log(response.isadmin);
+ if (response) {
+   // Redirect to the "/admin" page
+    navigate("/login");
+ }
+ 
     } catch (error) {
       console.error("Error during registration:", error);
       NotificationManager.error("Error during registration", "Error");

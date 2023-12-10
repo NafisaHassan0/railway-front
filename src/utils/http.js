@@ -1,12 +1,15 @@
 import axios from "axios"
 import { store } from "../store/index";
 import { NotificationManager } from "react-notifications";
-
+import { useSelector } from "react-redux"; // Import the useSelector hook
 const httpService = async (config = {}) => {
     try {
+       // const jwtt = useSelector((state) => state.user.jwt);
+
         let { baseURL, endpoint, base, reqBody, jwt, successNotif, description } = { ...defaultConfig, ...config };
         if (endpoint === undefined || base === undefined) throw new Error("Endpoint not given");
-        if (!endpoint[2]) jwt = `Bearer ${store.getState().user.token}`;
+        jwt = `Bearer ${store.getState().user.jwt}`;
+        console.log(jwt)
         const res = await axios({
             method: endpoint[1],
             url: `${base}/${endpoint[0]}`,
@@ -27,6 +30,7 @@ const httpService = async (config = {}) => {
         return false;
     } catch (e) {
         console.error(e);
+        
         NotificationManager.error("Please contact system administrators", "ERROR");
         return false
     }

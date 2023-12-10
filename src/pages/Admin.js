@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material";
 
-const Dashboard = () => {
+const Admin = () => {
     return (
         <Grid container>
             <Grid item xs={12} lg={4}>
@@ -14,4 +14,4 @@ const Dashboard = () => {
     )
 }
 
-export default Dashboard;
+export default Admin;
