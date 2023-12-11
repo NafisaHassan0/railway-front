@@ -1,3 +1,4 @@
+// UpdateTrainComponent.js
 import React, { useState } from "react";
 import httpService from "../utils/http.js";
 import { endpoints } from "../utils/http.js";
@@ -7,68 +8,62 @@ import {
 } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 import { useSelector } from "react-redux"; // Import the useSelector hook
-const TrainComponent = () => {
-  const [trainDetails, setTrainDetails] = useState({
-    id: "",
+
+const UpdateTrainComponent = () => {
+  const [updateDetails, setUpdateDetails] = useState({
+    trainid: "", // Include the train ID to uniquely identify the train to be updated
     name: "",
     capacity: "",
-    route: [],
+    routes: [],
   });
-const jwtToken = useSelector((state) => state.user.jwt);
-const loggedInUser = useSelector((state) => state.user.userDetails);
-console.log(loggedInUser)
-console.log(jwtToken); 
-console.log("heelll")
- console.log(trainDetails);
-const handleInputChange = (e) => {
-  if (e.target.name === "route") {
-    // Convert the comma-separated string to an array
-    const routeArray = e.target.value.split(",");
-    setTrainDetails({
-      ...trainDetails,
-      [e.target.name]: routeArray,
-    });
-  } else {
-    setTrainDetails({
-      ...trainDetails,
-      [e.target.name]: e.target.value,
-    });
-  }
-};
 
-  const handleCreateTrain = async () => {
-    try {
-  
-   
-      const response = await httpService({
-        endpoint: endpoints.Train.inserttrain,
-        base: endpoints.Train.base,
-        reqBody: trainDetails,
-       
-        successNotif: true,
-       
+  const jwtToken = useSelector((state) => state.user.jwt);
+  console.log(jwtToken);
+
+  const handleInputChange = (e) => {
+    if (e.target.name === "routes") {
+      // Convert the comma-separated string to an array
+      const routeArray = e.target.value.split(",");
+      setUpdateDetails({
+        ...updateDetails,
+        [e.target.name]: routeArray,
       });
+    } else {
+      setUpdateDetails({
+        ...updateDetails,
+        [e.target.name]: e.target.value,
+      });
+    }
+  };
 
+  const handleUpdateTrain = async () => {
+    try {
+      const response = await httpService({
+        endpoint: endpoints.Train.updateTrain,
+        base: endpoints.Train.base,
+        reqBody: updateDetails,
+        successNotif: true,
+      });
 
       if (response) {
         NotificationManager.success(response.message, "Success");
       }
     } catch (error) {
-      console.error("Error creating train:", error);
-      NotificationManager.error("Error creating train", "Error");
+      console.error("Error updating train:", error);
+      NotificationManager.error("Error updating train", "Error");
     }
   };
 
   return (
     <div>
-      <h2>Create New Train</h2>
+      <h2>Update Train</h2>
       <form>
         <label>
           Train ID:
           <input
             type="text"
-            name="id"
-            value={trainDetails.id}
+            name="trainid"
+            value={updateDetails.trainid}
             onChange={handleInputChange}
             required
           />
@@ -79,7 +74,7 @@ const handleInputChange = (e) => {
           <input
             type="text"
             name="name"
-            value={trainDetails.name}
+            value={updateDetails.name}
             onChange={handleInputChange}
             required
           />
@@ -90,25 +85,25 @@ const handleInputChange = (e) => {
           <input
             type="text"
             name="capacity"
-            value={trainDetails.capacity}
+            value={updateDetails.capacity}
             onChange={handleInputChange}
             required
           />
         </label>
         <br />
         <label>
-          Route:
+          Routes:
           <input
             type="text"
-            name="route"
-            value={trainDetails.route.join(",")}
+            name="routes"
+            value={updateDetails.routes.join(",")}
             onChange={handleInputChange}
             required
           />
         </label>
         <br />
-        <button type="button" onClick={handleCreateTrain}>
-          Create Train
+        <button type="button" onClick={handleUpdateTrain}>
+          Update Train
         </button>
       </form>
       <NotificationContainer />
@@ -116,4 +111,4 @@ const handleInputChange = (e) => {
   );
 };
 
-export default TrainComponent;
+export default UpdateTrainComponent;

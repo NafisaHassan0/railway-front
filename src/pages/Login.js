@@ -41,6 +41,11 @@ const Login = () => {
           // Redirect to the "/admin" page
           navigate("/train");
         }
+
+          if (!response.userDetails.isadmin) {
+            // Redirect to the "/admin" page
+            navigate("/user");
+          }
       if (response) {
         // Dispatch the loginUser action to update the Redux store with user details
         dispatch(loginUser(response));

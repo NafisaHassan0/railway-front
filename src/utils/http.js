@@ -66,14 +66,19 @@ export const endpoints = {
     updateTrain: ["updateTrain", methods.post],
     deleteTrain: ["deleteTrain", methods.post],
   },
-//   schedules: {
-//     base: "schedules",
-//     makeSchedule: ["makeSchedule", methods.post],
-//     uploadSchedule: ["uploadSchedule", methods.post],
-//     getAppInfo: ["getAppInfo", methods.get],
-//     saveSchedule: ["saveSchedule", methods.post],
-//     getSaveSchedule: ["getSaveSchedule", methods.get],
-//   },
+
+  booking: {
+    base: "booking",
+    searchtrain: ["searchtrain", methods.post],
+  },
+  //   schedules: {
+  //     base: "schedules",
+  //     makeSchedule: ["makeSchedule", methods.post],
+  //     uploadSchedule: ["uploadSchedule", methods.post],
+  //     getAppInfo: ["getAppInfo", methods.get],
+  //     saveSchedule: ["saveSchedule", methods.post],
+  //     getSaveSchedule: ["getSaveSchedule", methods.get],
+  //   },
 };
 
 /*
