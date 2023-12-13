@@ -18,8 +18,8 @@ import { Provider } from "react-redux";
 import { store } from "./store/index";
 import TrainComponent from "./pages/TrainComponent"
 import UpdateTrainComponent from "./pages/UpdateTrainComponent";
-import User from "./pages/User";
-
+import AllTrainsComponent from "./pages/AllTrainsComponent.js"
+import User from "./pages/User.js"
 const App = () => {
   return (
     <Provider store={store}>
@@ -30,6 +30,8 @@ const App = () => {
           <Route path="/train" element={<TrainComponent />} />
           <Route path="/login" element={<Login />} />
           <Route path="/update" element={<UpdateTrainComponent />} />
+          <Route path="/user" element={<User />} />
+          <Route path="/show" element={<AllTrainsComponent />} />
           <Route path="/user" element={<User />} />
         </Routes>
       </Router>

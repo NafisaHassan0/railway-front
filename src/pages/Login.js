@@ -39,8 +39,13 @@ const Login = () => {
      //   console.log(response.isadmin);
         if (response.userDetails.isadmin) {
           // Redirect to the "/admin" page
-          navigate("/train");
+          navigate("/admin");
         }
+
+         if (!response.userDetails.isadmin) {
+           // Redirect to the "/admin" page
+           navigate("/user");
+         }
 
           if (!response.userDetails.isadmin) {
             // Redirect to the "/admin" page

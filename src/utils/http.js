@@ -50,7 +50,8 @@ const defaultConfig = {
 
 const methods = {
     post: "POST",
-    get: "GET"
+    get: "GET",
+    put: "PUT"
 }
 
 // endpoint url, method name, unauthorized
@@ -59,17 +60,27 @@ export const endpoints = {
     base: "User",
     register: ["register", methods.post, true],
     login: ["login", methods.post, true],
+    banuser: ["banuser", methods.put],
+    viewusers: ["viewusers", methods.post],
   },
   Train: {
     base: "Train",
     inserttrain: ["inserttrain", methods.post],
     updateTrain: ["updateTrain", methods.post],
     deleteTrain: ["deleteTrain", methods.post],
+    getTrains: ["getTrains", methods.post],
+    searchTrain: ["searchTrain", methods.post],
+    canceltrain: ["canceltrain", methods.post],
   },
 
   booking: {
     base: "booking",
     searchtrain: ["searchtrain", methods.post],
+  },
+
+  ticket: {
+    base: ["ticket", methods.post],
+    buyticket: ["buyticket", methods.post],
   },
   //   schedules: {
   //     base: "schedules",
