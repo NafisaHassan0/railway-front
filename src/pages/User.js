@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import httpService, { endpoints } from "../utils/http";
 import BuyTicketComponent from "./BuyTicketComponent"; // Import the BuyTicketComponent
+import "./user.css";
 
 const SearchTrain = () => {
   const [date, setDate] = useState("");
@@ -43,79 +44,69 @@ const SearchTrain = () => {
   };
 
   return (
-    <div>
-      <h2>Search Train</h2>
-      <label>Date:</label>
-      <input
-        type="text"
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
-      />
-      <br />
-      <label>Source Station:</label>
-      <input
-        type="text"
-        value={sourceStation}
-        onChange={(e) => setSourceStation(e.target.value)}
-      />
-      <br />
-      <label>Destination Station:</label>
-      <input
-        type="text"
-        value={destinationStation}
-        onChange={(e) => setDestinationStation(e.target.value)}
-      />
-      <br />
-      <button onClick={handleSearch}>Search</button>
+    <div className="search-container">
+      <div className="search-box">
+        <h2 className="search-heading">Search Train</h2>
+        <div>
+          <label className="search-label">Date:</label>
+          <input
+            type="text"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            className="search-input"
+          />
+        </div>
+        <div>
+          <label className="search-label">Source Station:</label>
+          <input
+            type="text"
+            value={sourceStation}
+            onChange={(e) => setSourceStation(e.target.value)}
+            className="search-input"
+          />
+        </div>
+        <div>
+          <label className="search-label">Destination Station:</label>
+          <input
+            type="text"
+            value={destinationStation}
+            onChange={(e) => setDestinationStation(e.target.value)}
+            className="search-input"
+          />
+        </div>
+        <button onClick={handleSearch} className="search-btn">
+          Search
+        </button>
+      </div>
 
       {searchResult && (
         <div>
-          <h3>Search Result</h3>
-
-          <table>
-            <thead>
-              <tr>
-                <th>Train ID</th>
-                <th>Departure Time</th>
-                <th>Arrival Time</th>
-                <th>Train Name</th>
-                <th>Status</th>
-                <th>Available</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {searchResult.traindepartureTimes.map((train) => (
-                <tr key={train.trainId}>
-                  <td>{train.trainId}</td>
-                  <td>{train.departureTime}</td>
-                  <td>{train.arrivalTime}</td>
-                  <td>{train.name}</td>
-                  <td>{train.status}</td>
-                  <td>
-                    {train.status === "available" && (
-                      <input
-                        type="checkbox"
-                        onChange={() => handleToggleTrain(train.trainId)}
-                        checked={selectedTrains.includes(train.trainId)}
-                      />
-                    )}
-                  </td>
-                  <td>
-                    {train.status === "available" && (
-                      <button onClick={() => handleBookTrain(train.trainId)}>
-                        Book Train
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <h3 className="search-heading">Search Result</h3>
+          {searchResult.traindepartureTimes.map((train) => (
+            <div key={train.trainId} className="search-result-box">
+              <p>Train ID: {train.trainId}</p>
+              <p>Departure Time: {train.departureTime}</p>
+              <p>Arrival Time: {train.arrivalTime}</p>
+              <p>Train Name: {train.name}</p>
+              <p>Status: {train.status}</p>
+              {train.status === "available" && (
+                <div>
+                  <input
+                    type="checkbox"
+                    onChange={() => handleToggleTrain(train.trainId)}
+                    checked={selectedTrains.includes(train.trainId)}
+                  />
+                  <button onClick={() => handleBookTrain(train.trainId)}>
+                    Book Train
+                  </button>
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       )}
 
-      {/* Conditionally render BuyTicketComponent */}
+      {/* Render BuyTicketComponent */}
       {selectedTrainId && (
         <BuyTicketComponent
           trainId={selectedTrainId}

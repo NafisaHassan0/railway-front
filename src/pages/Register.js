@@ -1,15 +1,14 @@
 import React, { useState } from "react";
-import httpService from "../utils/http.js";
-import { endpoints } from "../utils/http.js";
-import { useNavigate } from "react-router-dom";
 import {
-  NotificationManager,
   NotificationContainer,
-} from "react-notifications"; // Import NotificationManager
-import "react-notifications/lib/notifications.css"; // Import notification styles
+  NotificationManager,
+} from "react-notifications";
+import "react-notifications/lib/notifications.css";
+import { useNavigate } from "react-router-dom";
+import httpService, { endpoints } from "../utils/http.js";
+import "./register.css"; // Import register.css for styling
 
 const Register = () => {
-
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     cnic: "",
@@ -41,13 +40,10 @@ const Register = () => {
         reqBody: formData,
         successNotif: true,
       });
-      console.log(response);
-      console.log(response.isadmin);
- if (response) {
-   // Redirect to the "/admin" page
-    navigate("/login");
- }
- 
+
+      if (response) {
+        navigate("/login");
+      }
     } catch (error) {
       console.error("Error during registration:", error);
       NotificationManager.error("Error during registration", "Error");
@@ -56,63 +52,75 @@ const Register = () => {
 
   return (
     <div>
-      <h2>User Registration</h2>
-      <form>
-        <label>
-          CNIC:
-          <input
-            type="text"
-            name="cnic"
-            value={formData.cnic}
-            onChange={handleInputChange}
-          />
-        </label>
-        <br />
-        <label>
-          Name:
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleInputChange}
-          />
-        </label>
-        <br />
-        <label>
-          Contact Info:
-          <input
-            type="text"
-            name="contactinfo"
-            value={formData.contactinfo}
-            onChange={handleInputChange}
-          />
-        </label>
-        <br />
-        <label>
-          Password:
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
-          />
-        </label>
-        <br />
-        <label>
-          Is Admin:
-          <input
-            type="checkbox"
-            name="isadmin"
-            checked={formData.isadmin}
-            onChange={handleCheckboxChange}
-          />
-        </label>
-        <br />
-        <button type="button" onClick={handleRegister}>
-          Register
-        </button>
-      </form>
-      <NotificationContainer />
+      <h1 style={{ textAlign: "center" }}>Railway Reservation System</h1>
+      <div className="register-container">
+        <h2 className="register-heading">User Registration</h2>
+        <form>
+          <label className="form-label">
+            CNIC:
+            <input
+              type="text"
+              name="cnic"
+              value={formData.cnic}
+              onChange={handleInputChange}
+              className="form-input"
+            />
+          </label>
+          <br />
+          <label className="form-label">
+            Name:
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              className="form-input"
+            />
+          </label>
+          <br />
+          <label className="form-label">
+            Contact Info:
+            <input
+              type="text"
+              name="contactinfo"
+              value={formData.contactinfo}
+              onChange={handleInputChange}
+              className="form-input"
+            />
+          </label>
+          <br />
+          <label className="form-label">
+            Password:
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              className="form-input"
+            />
+          </label>
+          <br />
+          <label className="form-label">
+            Is Admin:
+            <input
+              type="checkbox"
+              name="isadmin"
+              checked={formData.isadmin}
+              onChange={handleCheckboxChange}
+              className="form-checkbox"
+            />
+          </label>
+          <br />
+          <button
+            type="button"
+            onClick={handleRegister}
+            className="register-btn"
+          >
+            Register
+          </button>
+        </form>
+        <NotificationContainer />
+      </div>
     </div>
   );
 };

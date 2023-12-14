@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import httpService from "../utils/http.js";
-import { endpoints } from "../utils/http.js";
 import {
-  NotificationManager,
   NotificationContainer,
+  NotificationManager,
 } from "react-notifications";
 import "react-notifications/lib/notifications.css";
-import { loginUser } from "../store/reducers/user.js"; // Import the loginUser action from your Redux store
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { loginUser } from "../store/reducers/user.js"; // Import the loginUser action from your Redux store
+import httpService, { endpoints } from "../utils/http.js";
+import "./login.css";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -34,27 +34,27 @@ const Login = () => {
         reqBody: formData,
         successNotif: true,
       });
-     
-       // console.log(response.token);
-     //   console.log(response.isadmin);
-        if (response.userDetails.isadmin) {
-          // Redirect to the "/admin" page
-          navigate("/admin");
-        }
 
-         if (!response.userDetails.isadmin) {
-           // Redirect to the "/admin" page
-           navigate("/user");
-         }
+      // console.log(response.token);
+      //   console.log(response.isadmin);
+      if (response.userDetails.isadmin) {
+        // Redirect to the "/admin" page
+        navigate("/admin");
+      }
 
-          if (!response.userDetails.isadmin) {
-            // Redirect to the "/admin" page
-            navigate("/user");
-          }
+      if (!response.userDetails.isadmin) {
+        // Redirect to the "/admin" page
+        navigate("/user");
+      }
+
+      if (!response.userDetails.isadmin) {
+        // Redirect to the "/admin" page
+        navigate("/user");
+      }
       if (response) {
         // Dispatch the loginUser action to update the Redux store with user details
         dispatch(loginUser(response));
-        
+
         // Optionally, you can redirect to another page after successful login
         // history.push('/dashboard');
 
@@ -68,32 +68,37 @@ const Login = () => {
 
   return (
     <div>
-      <h2>User Login</h2>
-      <form>
-        <label>
-          CNIC:
-          <input
-            type="text"
-            name="cnic"
-            value={formData.cnic}
-            onChange={handleInputChange}
-          />
-        </label>
-        <br />
-        <label>
-          Password:
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
-          />
-        </label>
-        <br />
-        <button type="button" onClick={handleLogin}>
-          Login
-        </button>
-      </form>
+      <h1 style={{ textAlign: "center" }}>Railway Reservation System</h1>
+      <div className="login-container">
+        <h2 className="login-heading">User Login</h2>
+        <form>
+          <label className="login-label">
+            CNIC:
+            <input
+              type="text"
+              name="cnic"
+              value={formData.cnic}
+              onChange={handleInputChange}
+              className="login-input"
+            />
+          </label>
+          <br />
+          <label className="login-label">
+            Password:
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              className="login-input"
+            />
+          </label>
+          <br />
+          <button type="button" onClick={handleLogin} className="login-btn">
+            Login
+          </button>
+        </form>
+      </div>
       <NotificationContainer />
     </div>
   );
