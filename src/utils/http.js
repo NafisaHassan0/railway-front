@@ -1,58 +1,63 @@
-import axios from "axios"
-import { store } from "../store/index";
+import axios from "axios";
 import { NotificationManager } from "react-notifications";
-import { useSelector } from "react-redux"; // Import the useSelector hook
+import { store } from "../store/index";
 const httpService = async (config = {}) => {
-    try {
-       // const jwtt = useSelector((state) => state.user.jwt);
+  try {
+    // const jwtt = useSelector((state) => state.user.jwt);
 
-        let { baseURL, endpoint, base, reqBody, jwt, successNotif, description } = { ...defaultConfig, ...config };
-        if (endpoint === undefined || base === undefined) throw new Error("Endpoint not given");
-        jwt = `Bearer ${store.getState().user.jwt}`;
-        console.log(jwt)
-        const res = await axios({
-            method: endpoint[1],
-            url: `${base}/${endpoint[0]}`,
-            baseURL,
-            data: reqBody,
-            headers: { Authorization: jwt },
-        })
-        const { data: { responseCode, responseDescription, data }, status } = res;
-        description = description || responseDescription;
-        if (status === 200) {
-            if (responseCode === "00") {
-                if (successNotif) NotificationManager.success(description, "SUCCESS")
-                return data;
-            }
-            else NotificationManager.warning(description, "ERROR")
-        } else if (status === 400) NotificationManager.error(data.join("\n"));
-        else NotificationManager.error(description);
-        return false;
-    } catch (e) {
-        console.error(e);
-        
-        NotificationManager.error("Please contact system administrators", "ERROR");
-        return false
-    }
-}
+    let { baseURL, endpoint, base, reqBody, jwt, successNotif, description } = {
+      ...defaultConfig,
+      ...config,
+    };
+    if (endpoint === undefined || base === undefined)
+      throw new Error("Endpoint not given");
+    jwt = `Bearer ${store.getState().user.jwt}`;
+    console.log(jwt);
+    const res = await axios({
+      method: endpoint[1],
+      url: `${base}/${endpoint[0]}`,
+      baseURL,
+      data: reqBody,
+      headers: { Authorization: jwt },
+    });
+    const {
+      data: { responseCode, responseDescription, data },
+      status,
+    } = res;
+    description = description || responseDescription;
+    if (status === 200) {
+      if (responseCode === "00") {
+        if (successNotif) NotificationManager.success(description, "SUCCESS");
+        return data;
+      } else NotificationManager.warning(description, "ERROR");
+    } else if (status === 400) NotificationManager.error(data.join("\n"));
+    else NotificationManager.error(description);
+    return false;
+  } catch (e) {
+    console.error(e);
 
-export default httpService
+    NotificationManager.error("Please contact system administrators", "ERROR");
+    return false;
+  }
+};
+
+export default httpService;
 
 const defaultConfig = {
-    baseURL: "http://localhost:3000/",
-    endpoint: undefined,
-    base: undefined,
-    reqBody: {},
-    jwt: undefined,
-    successNotif: false,
-    description: undefined
-}
+  baseURL: "http://localhost:3000/",
+  endpoint: undefined,
+  base: undefined,
+  reqBody: {},
+  jwt: undefined,
+  successNotif: false,
+  description: undefined,
+};
 
 const methods = {
-    post: "POST",
-    get: "GET",
-    put: "PUT"
-}
+  post: "POST",
+  get: "GET",
+  put: "PUT",
+};
 
 // endpoint url, method name, unauthorized
 export const endpoints = {
